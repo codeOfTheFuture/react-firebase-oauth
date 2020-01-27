@@ -1,7 +1,8 @@
-import React, { useCallback, useContext } from 'react';
-import { withRouter, Redirect } from 'react-router';
-import app from '../firebase';
-import { AuthContext } from '../auth/useAuth';
+import React, { useCallback, useContext } from "react";
+import { withRouter, Redirect } from "react-router";
+import firebase from "firebase";
+import app from "../firebase";
+import { AuthContext } from "../auth/useAuth";
 
 const SignIn = ({ history }) => {
   const handleSignIn = useCallback(
@@ -12,15 +13,23 @@ const SignIn = ({ history }) => {
         await app
           .auth()
           .signInWithEmailAndPassword(email.value, password.value);
-        history.push('/');
+
+        let idToken = await firebase.auth().currentUser.getIdToken(true);
+
+        console.log("token>>>>>", idToken);
+        localStorage.setItem("firebase_idToken", idToken);
+
+        history.push("/");
       } catch (error) {
         alert(error);
       }
     },
-    [history],
+    [history]
   );
 
   const { currentUser } = useContext(AuthContext);
+
+  console.log(currentUser);
 
   if (currentUser) {
     return <Redirect to='/' />;

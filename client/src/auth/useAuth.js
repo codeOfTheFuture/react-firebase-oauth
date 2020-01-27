@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import firebase from '../firebase';
+import React, { useState, useEffect } from "react";
+import firebase from "../firebase";
 
 export const AuthContext = React.createContext();
 
@@ -13,8 +13,9 @@ export const AuthProvider = ({ children }) => {
   return (
     <AuthContext.Provider
       value={{
-        currentUser,
-      }}>
+        currentUser
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
